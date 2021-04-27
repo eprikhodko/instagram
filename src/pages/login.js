@@ -1,9 +1,15 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {Link} from "react-router-dom"
 import * as ROUTES from "../constants/routes"
 import "../styles/login.css"
 
 const Login = () => {
+    
+    // set page title
+    useEffect(() => {
+        document.title = "Login - Instagram"
+    },[])
+
     return(
         <div className="container">
             <div className="container-login">
