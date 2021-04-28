@@ -6,6 +6,12 @@ p {
     font-size: 1.4rem;
 }
 
+.paragraph-error {
+    width: 90%;
+    text-align: center;
+    color: red;
+}
+
 .font-bold {
     font-weight: 600;
 }

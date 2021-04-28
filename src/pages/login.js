@@ -20,30 +20,6 @@ const Login = () => {
     const [error, setError] = useState("")
     const isInvalid = password === "" || email === ""
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-
-        async function handleLogin() {
-            await firebase.auth().signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-              // Signed in
-              console.log("signed in")
-              const user = userCredential.user
-              // ...
-            })
-            .catch((error) => {
-              const errorCode = error.code
-              const errorMessage = error.message
-            // save error message in state
-              setError(errorMessage)
-              console.log(errorCode)
-            //   console.log(errorMessage)
-            })
-        }
-        handleLogin(email, password)
-        console.log(error)
-    }
-
     const handleLogin = async (event) => {
         event.preventDefault()
 
@@ -53,17 +29,19 @@ const Login = () => {
             setEmail("")
             setPassword("")
             setError(error.message)
-            console.log(error)
         }
     }
-
-
 
     return (
         <div className="container">
             <div className="container-login">
                 <img className ="logo" src="./images/logo.png" alt="Instagram logo" />
-
+                {error && <p className="paragraph-error">
+                    {error} 
+                    <br/>
+                    <br/>
+                    Please try again.
+                </p>}
                 <form method="POST" className="container-form" onSubmit={handleLogin}>
                     <input 
                         aria-label="Enter your email address"
