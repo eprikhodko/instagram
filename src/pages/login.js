@@ -19,7 +19,7 @@ const Login = () => {
     const [password, setPassword] = useState("")
 
     const [error, setError] = useState("")
-    const isInvalid = password === "" || email === ""
+    const isInvalid = password === "" || password.length < 6 || email === ""
 
     const handleLogin = async (event) => {
         event.preventDefault()

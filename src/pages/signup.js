@@ -20,20 +20,26 @@ const SignUp = () => {
     const [password, setPassword] = useState("")
 
     const [error, setError] = useState("")
-    const isInvalid = password === "" || email === ""
+    const isInvalid = username === "" || fullname === "" || email === "" || password === "" || password.length < 6
 
     const handleLogin = async (event) => {
         event.preventDefault()
 
         try {
             await firebase.auth().signInWithEmailAndPassword(email, password)
-            // redirect user to the Dasboard in case of successful login
+            // redirect user to the Dasboard if login is successful
             history.push(ROUTES.DASHBOARD)
         } catch (error){
             setEmail("")
             setPassword("")
             setError(error.message)
         }
+    }
+    
+    const handleUsernameChange = (event) => {
+        // return value only matching ("^[a-z0-9]*$")
+        // if we will add a space inside of brackets, like this: ("^[a-z0-9 ]*$"), we will be able to include spaces in a string. This is called Regular expressions, check MDN docs if you want to 
+        event.target.value.match("^[a-z0-9]*$")!=null && setUsername(event.target.value.toLowerCase())
     }
 
     return (
@@ -53,7 +59,7 @@ const SignUp = () => {
                         type="text"
                         placeholder="Username"
                         value={username}
-                        onChange={(event) => setUsername(event.target.value)}
+                        onChange={handleUsernameChange}
                     />
                     <input 
                         aria-label="Enter your Full Name"
@@ -62,6 +68,10 @@ const SignUp = () => {
                         placeholder="Full Name"
                         value={fullname}
                         onChange={(event) => setFullname(event.target.value)}
+                        // we can also use this syntax:
+                        // onChange={({ target }) => setFullname(target.value.toLowerCase())}
+                        // here we're destructure target from event object. 
+                        // try to console.log(event) at the end of handleUsernameChange() for example. You will see a SyntheticBaseEvent in a console, which has a target key, which has a value key, which has current input value
                     />
                     <input 
                         aria-label="Enter your email address"
@@ -69,7 +79,7 @@ const SignUp = () => {
                         type="text"
                         placeholder="Email address"
                         value={email}
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={(event) => setEmail(event.target.value.toLowerCase())}
                     />
                     <input 
                         aria-label="Enter your password"
