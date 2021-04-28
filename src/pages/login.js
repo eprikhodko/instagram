@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react"
-import {firebase} from "../lib/firebase"
+import React, {useEffect, useState, useContext} from "react"
+import FirebaseContext from "../context/firebase"
 import {Link} from "react-router-dom"
 import * as ROUTES from "../constants/routes"
 import "../styles/login.css"
@@ -10,6 +10,10 @@ const Login = () => {
     useEffect(() => {
         document.title = "Login - Instagram"
     },[])
+
+    // context is an object, that has firebase inside of it
+    const context = useContext(FirebaseContext)
+    console.log(context.firebase)
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -37,7 +41,7 @@ const Login = () => {
         event.preventDefault()
 
         async function handleLogin() {
-            await firebase.auth().signInWithEmailAndPassword(email, password)
+            await context.firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
               // Signed in
               console.log("signed in")
