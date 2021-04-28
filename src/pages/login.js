@@ -11,9 +11,8 @@ const Login = () => {
         document.title = "Login - Instagram"
     },[])
 
-    // context is an object, that has firebase inside of it
-    const context = useContext(FirebaseContext)
-    console.log(context.firebase)
+    // extract firebase with destructuring from Context
+    const {firebase} = useContext(FirebaseContext)
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -21,27 +20,11 @@ const Login = () => {
     const [error, setError] = useState("")
     const isInvalid = password === "" || email === ""
 
-    // user actions
-    // happy & sad scenarios
-    
-    // what happens when a user clicks login? -> firebase
-    // a async function that can handle login
-    // handle a succesful login with 
-    // await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
-    
-    // wrap the await function call to firebase in a try/catch
-    // error: catch(error)
-    // setError(error.message)
-    
-    // extra learnings: test.com
-    // handle the email address validation client side
-    // removes a network call!
-
     const handleSubmit = (event) => {
         event.preventDefault()
 
         async function handleLogin() {
-            await context.firebase.auth().signInWithEmailAndPassword(email, password)
+            await firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
               // Signed in
               console.log("signed in")
@@ -61,6 +44,19 @@ const Login = () => {
         console.log(error)
     }
 
+    const handleLogin = async (event) => {
+        event.preventDefault()
+
+        try {
+            await firebase.auth().signInWithEmailAndPassword(email, password)
+        } catch (error){
+            setEmail("")
+            setPassword("")
+            setError(error.message)
+            console.log(error)
+        }
+    }
+
 
 
     return (
@@ -68,7 +64,7 @@ const Login = () => {
             <div className="container-login">
                 <img className ="logo" src="./images/logo.png" alt="Instagram logo" />
 
-                <form method="POST" className="container-form" onSubmit={handleSubmit}>
+                <form method="POST" className="container-form" onSubmit={handleLogin}>
                     <input 
                         aria-label="Enter your email address"
                         className="input-login"
