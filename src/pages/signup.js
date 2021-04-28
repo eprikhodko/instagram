@@ -35,7 +35,44 @@ const SignUp = () => {
             setError(error.message)
         }
     }
+
+    const handleSignUp = async (event) => {
+        event.preventDefault()
+
+        try {
+           const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
+           console.log(user)
+        } catch (error) {
+            setEmail("")
+            setPassword("")
+            setError(error.message)
+            console.log(error)
+        }
+    }
     
+    // # Challenge
+    // Sign a user up to our Instagram clone
+
+    // Acceptance Criteria
+    //   - Create a 'handleSignUp' async function (the work inside the function must be in a try/catch) that uses the firebase -> auth -> function 'createUserWithEmailAndPassword' - see references!
+    //   - Store the result of the creation into a variable ^^
+    //   - Update the user's profile, specifically the 'displayName' field with the username that the user has inputted (which is stored in state)
+    //   - Add a new user document to the collection of 'users' with the following values:
+
+    //      - userId (value: take the 'uid' from the created user object -- e.g. createdUserResult.user.uid)
+    //      - username
+    //      - fullName
+    //      - emailAddress
+    //      - following: []
+    //      - followers: []
+    //      - dateCreated (use the time right now)
+
+    // - If there's any errors, handle them! Make sure to clean out the form values as well
+
+    // References
+    //   - https://firebase.google.com/docs/auth/web/password-auth
+    //   - https://cloud.google.com/firestore/docs/manage-data/add-data
+
     const handleUsernameChange = (event) => {
         // return value only matching ("^[a-z0-9]*$")
         // if we will add a space inside of brackets, like this: ("^[a-z0-9 ]*$"), we will be able to include spaces in a string. This is called Regular expressions, check MDN docs if you want to 
@@ -52,7 +89,7 @@ const SignUp = () => {
                     <br/>
                     Please try again.
                 </p>}
-                <form method="POST" className="container-form" onSubmit={handleLogin}>
+                <form method="POST" className="container-form" onSubmit={handleSignUp}>
                     <input 
                         aria-label="Enter your Username"
                         className="input-login"
