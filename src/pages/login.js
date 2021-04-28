@@ -40,12 +40,8 @@ const Login = () => {
                     />
                     <button 
                         type="submit"
-                        className="button-login font-bold"
-                        disabled={!isInvalid ? "" : "disabled"}
-                        style={{
-                            opacity: !isInvalid ? "100%" : "50%",
-                            cursor: !isInvalid ? "" : "not-allowed"
-                        }}
+                        className={`button-login font-bold ${isInvalid && "button-disabled"}`}
+                        disabled={isInvalid}
                     >
                         Log In
                     </button>

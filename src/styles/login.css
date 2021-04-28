@@ -73,6 +73,11 @@ p {
     border-radius: 4px;
 }
 
+.button-disabled {
+    opacity: 50%;
+    cursor: not-allowed;
+}
+
 .link:hover {
     color: #000;
 }
