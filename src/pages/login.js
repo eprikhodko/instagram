@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from "react"
 import FirebaseContext from "../context/firebase"
-import {Link} from "react-router-dom"
+import {Link, useHistory} from "react-router-dom"
 import * as ROUTES from "../constants/routes"
 import "../styles/login.css"
 
@@ -11,7 +11,8 @@ const Login = () => {
         document.title = "Login - Instagram"
     },[])
 
-    // extract firebase with destructuring from Context
+    const history = useHistory()
+    // extract firebase with destructuring from Context object
     const {firebase} = useContext(FirebaseContext)
 
     const [email, setEmail] = useState("")
@@ -25,6 +26,8 @@ const Login = () => {
 
         try {
             await firebase.auth().signInWithEmailAndPassword(email, password)
+            // redirect user to the Dasboard in case of successful login
+            history.push(ROUTES.DASHBOARD)
         } catch (error){
             setEmail("")
             setPassword("")
