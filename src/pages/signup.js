@@ -22,26 +22,27 @@ const SignUp = () => {
     const [error, setError] = useState("")
     const isInvalid = username === "" || fullname === "" || email === "" || password === "" || password.length < 6
 
-    const handleLogin = async (event) => {
-        event.preventDefault()
-
-        try {
-            await firebase.auth().signInWithEmailAndPassword(email, password)
-            // redirect user to the Dasboard if login is successful
-            history.push(ROUTES.DASHBOARD)
-        } catch (error){
-            setEmail("")
-            setPassword("")
-            setError(error.message)
-        }
-    }
 
     const handleSignUp = async (event) => {
         event.preventDefault()
 
         try {
-           const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
-           console.log(user)
+           const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(email, password)
+
+           await createdUserResult.user.updateProfile({
+               displayName: username
+           })
+
+           await firebase.firestore().collection('users').add({
+            userId: createdUserResult.user.uid,
+            username: username.toLowerCase(),
+            fullname,
+            email: email.toLowerCase(),
+            following: [],
+            followers: [],
+            dateCreated: Date.now()
+           })
+
         } catch (error) {
             setEmail("")
             setPassword("")
@@ -49,29 +50,6 @@ const SignUp = () => {
             console.log(error)
         }
     }
-    
-    // # Challenge
-    // Sign a user up to our Instagram clone
-
-    // Acceptance Criteria
-    //   - Create a 'handleSignUp' async function (the work inside the function must be in a try/catch) that uses the firebase -> auth -> function 'createUserWithEmailAndPassword' - see references!
-    //   - Store the result of the creation into a variable ^^
-    //   - Update the user's profile, specifically the 'displayName' field with the username that the user has inputted (which is stored in state)
-    //   - Add a new user document to the collection of 'users' with the following values:
-
-    //      - userId (value: take the 'uid' from the created user object -- e.g. createdUserResult.user.uid)
-    //      - username
-    //      - fullName
-    //      - emailAddress
-    //      - following: []
-    //      - followers: []
-    //      - dateCreated (use the time right now)
-
-    // - If there's any errors, handle them! Make sure to clean out the form values as well
-
-    // References
-    //   - https://firebase.google.com/docs/auth/web/password-auth
-    //   - https://cloud.google.com/firestore/docs/manage-data/add-data
 
     const handleUsernameChange = (event) => {
         // return value only matching ("^[a-z0-9]*$")
