@@ -11,15 +11,15 @@ const NotFound = lazy(() => import ('./pages/not-found.js'))
 const App = () => {
     return(
         <Router>
-            <Switch>
-                <Suspense fallback={<p>Loading...</p>}>
-                    <Route path={ROUTES.LOGIN} component={Login} />
-                    <Route path={ROUTES.SIGN_UP} component={SignUp} />
-                    <Route path={ROUTES.PROFILE} component={Profile} />
-                    <Route path={ROUTES.DASHBOARD} component={Dashboard} exact />
-                    <Route path={ROUTES.NOT_FOUND} component={NotFound} />
-                </Suspense>
-            </Switch>
+            <Suspense fallback={<p>Loading...</p>}>
+                <Switch>
+                        <Route path={ROUTES.LOGIN} component={Login} />
+                        <Route path={ROUTES.SIGN_UP} component={SignUp} />
+                        <Route path={ROUTES.PROFILE} component={Profile} />
+                        <Route path={ROUTES.DASHBOARD} component={Dashboard} exact />
+                        <Route component={NotFound} />
+                </Switch>
+            </Suspense>
         </Router>
         
     )
