@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from "react"
 import FirebaseContext from "../context/firebase"
 import {Link, useHistory} from "react-router-dom"
 import * as ROUTES from "../constants/routes"
+import doesUsernameExist from "../services/firebase"
 import "../styles/signup.css"
 
 const SignUp = () => {
@@ -26,34 +27,48 @@ const SignUp = () => {
     const handleSignUp = async (event) => {
         event.preventDefault()
 
-        try {
-           const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        // check if same username  already exist in database
+        const usernameExists = await doesUsernameExist(username)
 
-           await createdUserResult.user.updateProfile({
-               displayName: username
-           })
+        // if usernameExists.length === 1, setError("This username is already taken.")
+        // if usernameExists.length === 0, try to create user
+        if (!usernameExists.length) {
+            try {
+                const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(email, password)
+     
+                await createdUserResult.user.updateProfile({
+                    displayName: username
+                })
+     
+                await firebase.firestore().collection('users').add({
+                    userId: createdUserResult.user.uid,
+                    username: username.toLowerCase(),
+                    fullname,
+                    email: email.toLowerCase(),
+                    following: [],
+                    followers: [],
+                    dateCreated: Date.now()
+                })
 
-           await firebase.firestore().collection('users').add({
-            userId: createdUserResult.user.uid,
-            username: username.toLowerCase(),
-            fullname,
-            email: email.toLowerCase(),
-            following: [],
-            followers: [],
-            dateCreated: Date.now()
-           })
-
-        } catch (error) {
-            setEmail("")
+                // redirect user to the Dasboard in case of successful sign up
+                history.push(ROUTES.DASHBOARD)
+     
+             } catch (error) {
+                 setEmail("")
+                 setPassword("")
+                 setError(error.message)
+                 console.log(error)
+             }
+        } else {
+            setUsername("")
             setPassword("")
-            setError(error.message)
-            console.log(error)
+            setError("This username is already taken.")
         }
     }
 
     const handleUsernameChange = (event) => {
         // return value only matching ("^[a-z0-9]*$")
-        // if we will add a space inside of brackets, like this: ("^[a-z0-9 ]*$"), we will be able to include spaces in a string. This is called Regular expressions, check MDN docs if you want to 
+        // if we will add a space inside of brackets, like this: ("^[a-z0-9 ]*$"), we will be able to include spaces in a string. This is called Regular expressions, check MDN docs for reference
         event.target.value.match("^[a-z0-9]*$")!=null && setUsername(event.target.value.toLowerCase())
     }
 
