@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useContext } from "react"
 import {Link} from "react-router-dom"
 import FirebaseContext from "../context/firebase"
 import * as ROUTES from "../constants/routes"
-import "../styles/header.css"
+ import "../styles/header.css"
 
 const Header = () => {
+    const {firebase} = useContext(FirebaseContext)
+    const user = null
+
     return (
         <header>
             <div className="container-header">
@@ -14,15 +17,15 @@ const Header = () => {
                 <div className="container-buttons">
                     <button 
                         type="button"
-                        className="button-login font-bold"
+                        className="button-login"
                         >
                             Log In
                     </button>
                     <button 
                         type="button"
-                        className="button-sign-up font-bold"
+                        className="button-sign-up"
                         >
-                            Sign up
+                            Sign Up
                     </button>
                 </div>
             </div>
