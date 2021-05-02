@@ -6,7 +6,7 @@ import * as ROUTES from "../constants/routes"
 
 const Header = () => {
     const {firebase} = useContext(FirebaseContext)
-    const user = null
+    const user = "null"
 
     return (
         <header>
@@ -15,18 +15,32 @@ const Header = () => {
                     <img className="logo-instagram" src="./images/logo-instagram.png" alt="Instagram logo"/>
                 </Link>
                 <div className="container-buttons">
-                    <button 
-                        type="button"
-                        className="button-login"
-                        >
-                            Log In
-                    </button>
-                    <button 
-                        type="button"
-                        className="button-sign-up"
-                        >
-                            Sign Up
-                    </button>
+                    {user ? (
+                        < >
+                            <button 
+                                type="button"
+                                className="button-sign-up"
+                                >
+                                    Sign Out
+                            </button>
+                        </>
+                    ):(
+                        < >
+                        <button 
+                            type="button"
+                            className="button-login"
+                            >
+                                Log In
+                        </button>
+                        <button 
+                            type="button"
+                            className="button-sign-up"
+                            >
+                                Sign Up
+                        </button>
+                    </>
+                    )}
+                    
                 </div>
             </div>
         </header>
