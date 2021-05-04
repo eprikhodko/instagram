@@ -45,3 +45,8 @@ header {
     background-color: #fff;
     border: none;
 }
+
+.icon-header {
+    margin-right: 1em;
+    cursor: pointer;
+}

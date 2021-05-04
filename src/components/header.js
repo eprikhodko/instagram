@@ -2,6 +2,10 @@ import React, { useContext } from "react"
 import {Link} from "react-router-dom"
 import FirebaseContext from "../context/firebase"
 import * as ROUTES from "../constants/routes"
+
+import {ReactComponent as IconHome} from "../icons/home.svg"
+import {ReactComponent as IconSignOut}  from "../icons/logout.svg"
+
 import "../styles/header.css"
 
 const Header = () => {
@@ -17,12 +21,13 @@ const Header = () => {
                 <div className="container-buttons">
                     {user ? (
                         < >
-                             <Link to={ROUTES.DASHBOARD} arial-label="Home">
-                                    <p>Dashboard</p>
-                                </Link>
-                            <button 
-                                type="button"
-                                className="button-sign-up"
+                            <Link to={ROUTES.DASHBOARD} arial-label="Home">
+                                <IconHome className="icon-header" title="Home"/>
+                            </Link>
+
+                            <IconSignOut 
+                                className="icon-header" 
+                                width="20px"
                                 title="Sign Out"
                                 onClick={() => firebase.auth().signOut()}
                                 onKeyDown={(event) => {
@@ -30,9 +35,8 @@ const Header = () => {
                                         firebase.auth().signOut()
                                     }
                                 }}
-                                >
-                                    Sign Out
-                            </button>
+                            />
+
                             <Link to={`/p/${user.displayName}`}>
                                 <img
                                     className="header-avatar"
