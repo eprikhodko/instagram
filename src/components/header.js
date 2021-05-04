@@ -1,6 +1,7 @@
 import React, { useContext } from "react"
 import {Link} from "react-router-dom"
 import FirebaseContext from "../context/firebase"
+import UserContext from "../context/user"
 import * as ROUTES from "../constants/routes"
 
 import {ReactComponent as IconHome} from "../icons/home.svg"
@@ -9,8 +10,8 @@ import {ReactComponent as IconSignOut}  from "../icons/logout.svg"
 import "../styles/header.css"
 
 const Header = () => {
-    const {firebase} = useContext(FirebaseContext)
-    const user = "raphael"
+    const {firebase} = useContext(FirebaseContext) 
+    const {user} = useContext(UserContext)
 
     return (
         <header>
@@ -22,12 +23,15 @@ const Header = () => {
                     {user ? (
                         < >
                             <Link to={ROUTES.DASHBOARD} arial-label="Home">
-                                <IconHome className="icon-header" title="Home"/>
+                                <IconHome 
+                                    className="icon-header" 
+                                    title="Home"
+                                />
                             </Link>
 
                             <IconSignOut 
-                                className="icon-header" 
-                                width="20px"
+                                className="icon-signout" 
+                                width="22px"
                                 title="Sign Out"
                                 onClick={() => firebase.auth().signOut()}
                                 onKeyDown={(event) => {
@@ -37,9 +41,9 @@ const Header = () => {
                                 }}
                             />
 
-                            <Link to={`/p/${user.displayName}`}>
+                            <Link to={`/p/${user.displayName}`} className="link-profile">
                                 <img
-                                    className="header-avatar"
+                                    className="avatar-header"
                                     src={`/images/avatars/${user.displayName}.jpg`}
                                     alt={`${user.displayName} profile avatar`}
                                 />
@@ -47,18 +51,23 @@ const Header = () => {
                         </>
                     ):(
                         < >
+                            <Link to={ROUTES.LOGIN}>
+                                <button 
+                                    type="button"
+                                    className="button-login"
+                                    >
+                                        Log In
+                                </button>
+                            </Link>
+                           
+                           <Link to={ROUTES.SIGN_UP}>
                             <button 
-                                type="button"
-                                className="button-login"
-                                >
-                                    Log In
-                            </button>
-                            <button 
-                                type="button"
-                                className="button-sign-up"
-                                >
-                                    Sign Up
-                            </button>
+                                    type="button"
+                                    className="button-signup"
+                                    >
+                                        Sign Up
+                                </button>
+                           </Link>
                     </>
                     )}
                     
