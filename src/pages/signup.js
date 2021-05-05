@@ -34,12 +34,15 @@ const SignUp = () => {
         // if usernameExists.length === 0, try to create user
         if (!usernameExists.length) {
             try {
-                const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(email, password)
+                const createdUserResult = await firebase
+                    .auth()
+                    .createUserWithEmailAndPassword(email, password)
      
                 await createdUserResult.user.updateProfile({
                     displayName: username
                 })
-     
+                
+                // firebase user collection (create a document)
                 await firebase.firestore().collection('users').add({
                     userId: createdUserResult.user.uid,
                     username: username.toLowerCase(),
@@ -57,7 +60,7 @@ const SignUp = () => {
                  setEmail("")
                  setPassword("")
                  setError(error.message)
-                 console.log(error)
+                //  console.log(error)
              }
         } else {
             setUsername("")

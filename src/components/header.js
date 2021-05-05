@@ -10,7 +10,7 @@ import {ReactComponent as IconSignOut}  from "../icons/logout.svg"
 import "../styles/header.css"
 
 const Header = () => {
-    const {firebase} = useContext(FirebaseContext) 
+    const {firebase} = useContext(FirebaseContext)
     const {user} = useContext(UserContext)
 
     return (
