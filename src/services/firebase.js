@@ -20,4 +20,19 @@ const doesUsernameExist = async (username) => {
     return result.docs.map((user) => user.data().length > 0)
 }
 
-export default doesUsernameExist
+const getUserByUserId = async (userId) => {
+    const result = await firebase
+        .firestore()
+        .collection("users")
+        .where("userId", "==", userId)
+        .get()
+
+    const user = result.docs.map((item) => ({
+        ...item.data(),
+        docId: item.id
+    }))
+
+    return user
+}
+
+export {doesUsernameExist, getUserByUserId}

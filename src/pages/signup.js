@@ -2,7 +2,7 @@ import React, {useEffect, useState, useContext} from "react"
 import FirebaseContext from "../context/firebase"
 import {Link, useHistory} from "react-router-dom"
 import * as ROUTES from "../constants/routes"
-import doesUsernameExist from "../services/firebase"
+import {doesUsernameExist} from "../services/firebase"
 import "../styles/signup.css"
 
 const SignUp = () => {
