@@ -43,4 +43,19 @@ const getUserByUserId = async (userId) => {
     return user
 }
 
-export {doesUsernameExist, getUserByUserId}
+const getSuggestedProfiles = async (userId, following) => {
+    // get 10 users from Firestore "users" collection
+    const result = await firebase
+        .firestore()
+        .collection("users")
+        .limit(10)
+        .get()
+    
+    return result.docs
+        .map((user) => ({...user.data(), docId: user.id}))
+        // filter out current logged in user profile, so it won't showing in suggested profiles
+        // filter out profiles that we're already following
+        .filter((profile) => profile.userId !== userId && !following.includes(profile.userId))
+}
+
+export {doesUsernameExist, getUserByUserId, getSuggestedProfiles}

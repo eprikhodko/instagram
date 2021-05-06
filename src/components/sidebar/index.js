@@ -16,13 +16,13 @@ const Sidebar = () => {
 
     // why do we need this values? We need them to use them in suggestions in Sidebar component. We don't want to suggest somebody we're already following. We also need this values to build our user Profile component.
 
-    const {user: {fullName, username, userId}} = useUser()
+    const {user: {fullName, username, userId, following}} = useUser()
 
     return (
         <div>
             <p>This is Sidebar</p>
             <User username={username} fullName={fullName}/>
-            <Suggestions userId={userId}/>
+            <Suggestions userId={userId} following={following}/>
         </div>
         
     )
