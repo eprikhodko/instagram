@@ -26,6 +26,8 @@ const doesUsernameExist = async (username) => {
 // we have firebase Authentication and we have firebase Storage. How can we get user from Firestore, based on user authenication? We're using a useUser hook for this, and getUserByUserId function below
 // we're pass a uid to the getUserByUserId service function, from user.uid context in useUser hook
 // we then get a user with that uid, from Firestore "users" collection
+///////////////////////////////////////////////////////////////////////////////
+// get user from Firestore where userId == userId (passed from the firebase Authentication)
 const getUserByUserId = async (userId) => {
     const result = await firebase
         .firestore()

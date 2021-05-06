@@ -1,5 +1,8 @@
 import React from "react"
-import useUser from "../hooks/useUser"
+import useUser from "../../hooks/useUser"
+
+import User from "./user"
+import Suggestions from "./suggestions"
 
 const Sidebar = () => {
     // try to say const x = useUser(), and then console.log(x)
@@ -16,7 +19,12 @@ const Sidebar = () => {
     const {user: {fullName, username, userId}} = useUser()
 
     return (
-        <p>This is Sidebar</p>
+        <div>
+            <p>This is Sidebar</p>
+            <User username={username} fullName={fullName}/>
+            <Suggestions userId={userId}/>
+        </div>
+        
     )
 }
 
